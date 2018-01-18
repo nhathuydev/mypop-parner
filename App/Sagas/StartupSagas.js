@@ -6,8 +6,8 @@ import { is } from 'ramda'
 export const selectAvatar = GithubSelectors.selectAvatar
 
 // process STARTUP actions
-export function * startup (action) {
-  if (__DEV__ && console.tron) {
+export function* startup(action) {
+  if (false && __DEV__ && console.tron) {
     // straight-up string logging
     console.tron.log('Hello, I\'m an example of how to log via Reactotron.')
 
@@ -32,9 +32,10 @@ export function * startup (action) {
       }
     })
   }
-  const avatar = yield select(selectAvatar)
-  // only get if we don't have it yet
-  if (!is(String, avatar)) {
-    yield put(GithubActions.userRequest('GantMan'))
-  }
+  // const avatar = yield select(selectAvatar)
+  // // only get if we don't have it yet
+  // if (!is(String, avatar)) {
+  //   yield put(GithubActions.userRequest('GantMan'))
+  // }
+
 }

@@ -9,17 +9,17 @@ import ReduxPersist from '../Config/ReduxPersist'
 import styles from './Styles/RootContainerStyles'
 
 class RootContainer extends Component {
-  componentDidMount () {
+  componentDidMount() {
     // if redux persist is not active fire startup action
     if (!ReduxPersist.active) {
       this.props.startup()
     }
   }
 
-  render () {
+  render() {
     return (
       <View style={styles.applicationView}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle='default' />
         <ReduxNavigation />
       </View>
     )
