@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, Image } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 import { connect } from 'react-redux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
-// Other component
+// Other Component
 import Icon from 'react-native-vector-icons/FontAwesome'
-import LRequest from './LRequest'
+
 // Styles
 import { Colors } from '../Themes'
-import styles from './Styles/SRequestListStyle'
+import styles from './Styles/SShoppingOrderListStyle'
 
-class SRequestList extends Component {
+class SShoppingOrderList extends Component {
   static navigationOptions = {
-    title: 'Giao dịch',
-    tabBarIcon: <Icon name={'book'} color={Colors.white} size={24} />
+    title: 'Đơn hàng',
+    tabBarIcon: <Icon name={'shopping-cart'} color={Colors.white} size={24} />
   };
   // constructor (props) {
   //   super(props)
@@ -24,7 +24,7 @@ class SRequestList extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <LRequest />
+        <Text>SShoppingOrderList Container</Text>
       </ScrollView>
     )
   }
@@ -40,4 +40,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SRequestList)
+export default connect(mapStateToProps, mapDispatchToProps)(SShoppingOrderList)

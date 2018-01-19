@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, Image, View, TouchableOpacity } from 'react-native'
+import { NavigationActions } from 'react-navigation'
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
 
 import { Images } from '../Themes'
@@ -18,25 +19,28 @@ export default class LaunchScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
           <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
+            <Image source={Images.logoWithText} style={styles.logo} />
           </View>
 
-          <View style={styles.section} >
-            <Image source={Images.ready} />
-            <Text style={styles.sectionText}>
-              This probably isn't what your app is going to look like. Unless your designer handed you this screen and, in that case, congrats! You're ready to ship. For everyone else, this is where you'll see a live preview of your fully functioning app using Ignite.
-            </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('MainTabs')}
-            >
-              <Text>Tabs</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.dispatch(NavigationActions.reset({
+                index: 0,
+                key: null,
+                actions: [
+                  NavigationActions.navigate({ routeName: 'MainTabs' })
+                ]
+              }))
+            }}
+          >
+            <Text>Go main</Text>
+          </TouchableOpacity>
 
-          <DevscreensButton />
+          {
+            false && <DevscreensButton />
+          }
         </ScrollView>
       </View>
     )

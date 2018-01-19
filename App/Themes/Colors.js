@@ -1,5 +1,12 @@
 const colors = {
   background: '#FFFFFF',
+  orange: '#FF833C',
+  pinkiskOrange: '#FF6633',
+  white: '#FFFFFF',
+  black: '#000000',
+  brownishGrey: '#706F63',
+  purpleBrown: '#501D1E',
+
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
   transparent: 'rgba(0,0,0,0)',

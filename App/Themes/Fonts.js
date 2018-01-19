@@ -50,7 +50,11 @@ const style = {
   description: {
     fontFamily: type.base,
     fontSize: size.medium
-  }
+  },
+  time: {
+    fontFamily: type.base,
+    fontSize: size.small
+  },
 }
 
 export default {
