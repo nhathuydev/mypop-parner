@@ -20,10 +20,10 @@ ExamplesRegistry.addComponentExample('Drawer Button', () =>
 class DrawerButton extends Component {
   static propTypes = {
     text: PropTypes.string,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
   }
 
-  render () {
+  render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
         <Text style={styles.text}>{this.props.text}</Text>
