@@ -1,60 +1,77 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
 
-// our "constructor"
-const create = (baseURL = 'https://api.github.com/') => {
-  // ------
-  // STEP 1
-  // ------
-  //
-  // Create and configure an apisauce-based api object.
-  //
-  const api = apisauce.create({
-    // base URL is read from the "constructor"
-    baseURL,
-    // here are some default headers
-    headers: {
-      'Cache-Control': 'no-cache'
-    },
-    // 10 second timeout...
-    timeout: 10000
-  })
+// api list
+const ApiUrl = {
+  defaultApi: 'https://mypop.vn',
+  authApi: 'https://auth-api.mypop.vn',
+}
 
-  // ------
-  // STEP 2
-  // ------
-  //
-  // Define some functions that call the api.  The goal is to provide
-  // a thin wrapper of the api layer providing nicer feeling functions
-  // rather than "get", "post" and friends.
-  //
-  // I generally don't like wrapping the output at this level because
-  // sometimes specific actions need to be take on `403` or `401`, etc.
-  //
-  // Since we can't hide from that, we embrace it by getting out of the
-  // way at this level.
-  //
+const serialize = (params) => {
+  let result = ''
+  for (let key in params) {
+    result += `${key}=${params[key]}&`
+  }
+  return `?${result}`
+}
+
+const transformRequest = (data, headers) => {
+  if (global.SID) {
+    headers['SID'] = global.SID
+  }
+  return data;
+}
+
+const logRequest = response => {
+  const logMessage = `
+  Call api to: ${response.config.url} 
+  Headers: ${JSON.stringify(response.config.headers)}
+  Response: ${JSON.stringify(response.data)}`
+  console.log('====================================');
+  console.log(logMessage);
+  console.log('====================================');
+}
+
+// our "constructor"
+const create = () => {
+  const apis = {};
+
+  const headers = {
+    'Cache-Control': 'no-cache',
+  }
+
+  // if (global.SID) {
+  //   headers['SID'] = global.SID
+  // }
+  for (let key in ApiUrl) {
+    apis[key] = apisauce.create({
+      baseURL: ApiUrl[key],
+      headers,
+      timeout: 10000,
+      transformRequest,
+    })
+    apis[key].addMonitor(logRequest)
+  }
+  
+  // console.log('====================================');
+  // console.log(global.SID);
+  // console.log('====================================');
+
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
-
-  // ------
-  // STEP 3
-  // ------
-  //
-  // Return back a collection of functions that we would consider our
-  // interface.  Most of the time it'll be just the list of all the
-  // methods in step 2.
-  //
-  // Notice we're not returning back the `api` created in step 1?  That's
-  // because it is scoped privately.  This is one way to create truly
-  // private scoped goodies in JavaScript.
-  //
+  const login = (payload) => apis['authApi']
+    .post('auth/login' + serialize({
+      ...payload,
+      authType: 1,
+      countryCode: 84,
+    }))
+  
   return {
-    // a list of the API functions from step 2
     getRoot,
     getRate,
-    getUser
+    getUser,
+    login,
   }
 }
 

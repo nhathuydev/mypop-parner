@@ -7,7 +7,7 @@ const { Types, Creators } = createActions({
   userRequest: ['data'],
   userSuccess: ['payload'],
   userFailure: null,
-  userLogin: ['payload'],
+  userLogin: ['login', 'secret'],
 })
 
 export const UserTypes = Types
@@ -18,14 +18,14 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   data: null,
   fetching: null,
-  payload: null,
   error: null
 })
 
 /* ------------- Selectors ------------- */
 
 export const UserSelectors = {
-  getData: state => state.data
+  getData: state => state.data,
+  getSID: state => state.data,
 }
 
 /* ------------- Reducers ------------- */
@@ -37,7 +37,7 @@ export const request = (state, { data }) =>
 // successful api lookup
 export const success = (state, action) => {
   const { payload } = action
-  return state.merge({ fetching: false, error: null, payload })
+  return state.merge({ fetching: false, error: null, data: payload })
 }
 
 // Something went wrong somewhere.

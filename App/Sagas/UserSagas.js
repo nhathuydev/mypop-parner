@@ -10,9 +10,8 @@
 *    you'll need to define a constant in that file.
 *************************************************************/
 
-import { call, put } from 'redux-saga/effects'
+import { call, put, take } from 'redux-saga/effects'
 import UserActions from '../Redux/UserRedux'
-// import { UserSelectors } from '../Redux/UserRedux'
 
 export function* getUser(api, action) {
   const { data } = action
@@ -32,17 +31,38 @@ export function* getUser(api, action) {
 }
 
 export function* loginUser(api, action) {
-  const { payload } = api
-  // console.log(payload)
+  const {login, secret} = action
+
+  const payload = {login, secret}
+  const response = yield call(api.login, payload)
+  
+  if (response.ok && response.data.error === 0) {
+    const userInfo = response.data.data
+    userInfo.mqttInfo = response.data.extraData.mqttInfo
+
+    global.SID = userInfo.sessionKey
+    yield put(UserActions.userSuccess(userInfo))
+  } else {
+
+  }
+    // yield put(UserActions.userSuccess({
+  //   name: 'Huy Buiii',
+  //   sessionKey: '122222332211',
+  // }))
+  // const { payload } = action
+  // console.log('====================================');
+  // console.log(payload);
+  // console.log('====================================');
 
   // const { data } = action
   // console.log(action)
   // get current data from Store
   // make the call to the api
-  const response = yield call(api.getuser, payload)
+  // const response = yield call(api.getuser, payload)
 
-  console.log(response)
-
+  // console.log('====================================');
+  // console.log(response);
+  // console.log('====================================');
   // success?
   // if (response.ok) {
   // You might need to change the response here - do this with a 'transform',

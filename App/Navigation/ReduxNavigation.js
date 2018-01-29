@@ -8,15 +8,6 @@ function ReduxNavigation(props) {
   const { dispatch, nav } = props
   const navigation = ReactNavigation.addNavigationHelpers({
     dispatch,
-    state: {
-      index: 0,
-      routes: [
-        {
-          key: 1234,
-          routeName: 'LaunchScreen',
-        }
-      ],
-    },
     state: nav,
   })
 
@@ -24,4 +15,5 @@ function ReduxNavigation(props) {
 }
 
 const mapStateToProps = state => ({ nav: state.nav })
+
 export default connect(mapStateToProps)(ReduxNavigation)

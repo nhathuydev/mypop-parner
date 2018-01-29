@@ -1,4 +1,4 @@
-import { StackNavigator, TabNavigator } from 'react-navigation'
+import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation'
 import SShoppingOrderList from '../Containers/SShoppingOrderList'
 import SRequestList from '../Containers/SRequestList'
 import SAuthGeneral from '../Containers/SAuthGeneral'
@@ -10,7 +10,7 @@ import styles from './Styles/NavigationStyles'
 import { Colors } from '../Themes'
 
 
-import Icon from 'react-native-vector-icons/FontAwesome'
+// import Icon from 'react-native-vector-icons/FontAwesome'
 import React from 'react'
 
 const tabConfig = {
@@ -61,4 +61,10 @@ const PrimaryNav = StackNavigator({
   },
 }, stackConfig)
 
+const DrawerNav = DrawerNavigator({
+  SRequestList: {
+    screen: SRequestList
+  },
+  SShoppingOrderList: { screen: SShoppingOrderList },
+});
 export default PrimaryNav
