@@ -18,19 +18,22 @@ class Login extends Component {
   }
 
   render() {
-    const {login} = this.props
+    const { login } = this.props
     return (
       <ScrollView style={styles.container}>
         <Input
           label={'Phone'}
           placeholder={'type your phone hereeeeee...'}
+          error={'You must fill this'}
         />
         <Input
           label={'Password'}
           placeholder={'type your password hereeeeee...'}
         />
         <ButtonFull
-          text={'Login'} onPress={login}/>
+          text={'Login'} onPress={() => {
+            login('0937417027', 'Aa123456$')
+          }} />
       </ScrollView>
     )
   }

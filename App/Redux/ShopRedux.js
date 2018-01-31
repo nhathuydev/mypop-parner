@@ -17,6 +17,7 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   data: [],
+  shopSeleted: -1,
   fetching: null,
   error: null
 })

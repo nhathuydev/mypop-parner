@@ -16,11 +16,8 @@ export default class ButtonFull extends Component {
     onPress: null,
   }
 
-  render () {
-    const {text, onPress} = this.props;
-    console.log('====================================');
-    console.log('acb');
-    console.log('====================================');
+  render() {
+    const { text, onPress } = this.props;
     return (
       <TouchableOpacity
         style={styles.container}

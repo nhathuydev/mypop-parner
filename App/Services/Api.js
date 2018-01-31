@@ -53,7 +53,7 @@ const create = () => {
     })
     apis[key].addMonitor(logRequest)
   }
-  
+
   // console.log('====================================');
   // console.log(global.SID);
   // console.log('====================================');
@@ -61,8 +61,8 @@ const create = () => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getProfile = (id) => apis['profileApi'].get(`profile/${id}`)
-  const getShopOfUser = (id) => apis['authApi'].get(`auth/user/${id}/shops?offset=0&size=100`)
-  
+  const getShopOfUser = (id) => apis['authApi'].get(`auth/user/${id}/shops?offset=0&size=5`)
+
   const login = (payload) => apis['authApi']
     .post('auth/login' + serialize({
       ...payload,
@@ -71,19 +71,19 @@ const create = () => {
     }))
   const logout = () => {
     return apis['authApi']
-            .post('auth/logout')
-            .done(() => {
-              global.SID = undefined
-            })
+      .post('auth/logout')
+      .done(() => {
+        global.SID = undefined
+      })
   }
-  
+
   return {
     getRoot,
     getRate,
     login,
     logout,
     getProfile,
-    getShopOfUser,    
+    getShopOfUser,
   }
 }
 

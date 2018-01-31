@@ -8,16 +8,21 @@ export default class Input extends Component {
   static propTypes = {
     label: PropTypes.string,
     placeholder: PropTypes.string,
+    error: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+    ]),
   }
-  
+
   // Defaults for props
   static defaultProps = {
     label: null,
     placeholder: null,
+    error: false,
   }
 
-  render () {
-    const { label, placeholder } = this.props
+  render() {
+    const { label, placeholder, error } = this.props
     return (
       <View style={styles.container}>
         {
@@ -27,6 +32,9 @@ export default class Input extends Component {
           style={styles.input}
           placeholder={placeholder}
         />
+        {
+          !!error && <Text style={styles.txtError}>{error}</Text>
+        }
       </View>
     )
   }

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Metrics, Fonts } from '../../Themes'
+import { Metrics, Fonts, Colors } from '../../Themes'
 
 export default StyleSheet.create({
   container: {
@@ -8,12 +8,12 @@ export default StyleSheet.create({
     // backgroundColor: 'green'
   },
   txtLabel: {
-    // backgroundColor: 'red',
     ...Fonts.style.label,
+    color: Colors.black,
     paddingVertical: Metrics.baseMargin,
   },
   txtError: {
-
+    ...Fonts.style.inputError,
   },
   input: {
     ...Fonts.style.input,

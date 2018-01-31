@@ -1,3 +1,4 @@
+import Color from './Colors'
 const type = {
   base: 'Avenir-Book',
   bold: 'Avenir-Black',
@@ -57,11 +58,16 @@ const style = {
   },
   label: {
     fontFamily: type.base,
-    fontSize: size.regular
+    fontSize: size.regular,
   },
   input: {
     fontFamily: type.base,
     fontSize: size.regular
+  },
+  inputError: {
+    fontFamily: type.base,
+    fontSize: size.small,
+    color: Color.error,
   },
 }
 

@@ -34,25 +34,31 @@ class LaunchScreen extends Component {
         index: 0,
       })
       if (nextProps.isLogged) {
-        resetAction.actions = [
-          NavigationActions.navigate({ routeName: 'MainTabs'})
-        ]
+        if (!nextProps.isSelectShop) {
+          resetAction.actions = [
+            NavigationActions.navigate({ routeName: 'SSelectShop' })
+          ]
+        } else {
+          resetAction.actions = [
+            NavigationActions.navigate({ routeName: 'MainTabs' })
+          ]
+        }
       } else {
         resetAction.actions = [
-          NavigationActions.navigate({ routeName: 'LoginScreen'})
+          NavigationActions.navigate({ routeName: 'LoginScreen' })
         ]
       }
       this.props.navigation.dispatch(resetAction)
     }
   }
   render() {
-    const {navigation, user, isLogged, login, logout} = this.props;
-    const {rehydrate} = this.state
+    const { navigation, user, isLogged, login, logout } = this.props;
+    const { rehydrate } = this.state
     return (
       <View style={styles.mainContainer}>
         <View style={styles.centered}>
           <Image source={Images.logoWithText} style={styles.logo} />
-          <Loading/>
+          <Loading />
         </View>
       </View>
     )
@@ -63,6 +69,7 @@ const mapStateToProps = (state) => ({
   user: state.user,
   isLogged: state.user && state.user.data && state.user.data.sessionKey,
   rehydrate: state._persist && state._persist.rehydrated,
+  isSelectShop: state.shop.shopSeleted > 0,
 })
 
 const mapDispatchToProps = (dispatch) => ({

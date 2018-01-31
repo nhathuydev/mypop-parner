@@ -1,4 +1,5 @@
 import { StackNavigator, TabNavigator, DrawerNavigator } from 'react-navigation'
+import SSelectShop from '../Containers/SSelectShop'
 import SShoppingOrderList from '../Containers/SShoppingOrderList'
 import SRequestList from '../Containers/SRequestList'
 import SAuthGeneral from '../Containers/SAuthGeneral'
@@ -47,6 +48,7 @@ const MainTabs = TabNavigator({
 }, tabConfig)
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
+  SSelectShop: { screen: SSelectShop },
   LoginScreen: { screen: SLogin },
   SAuthGeneral: { screen: SAuthGeneral },
   ScreenTest: { screen: ScreenTest },
