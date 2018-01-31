@@ -8,58 +8,52 @@ import GitActions from '../Redux/GithubRedux'
 import { Images } from '../Themes'
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { ButtonFull } from "../Components";
+import { Loading } from "../Components";
 // Styles
 import styles from './Styles/LaunchScreenStyles'
 
 class LaunchScreen extends Component {
-  static navigationOptions = {
-    drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-      <Icon
-        name={'bug'}
-        size={24}
-      />
-    ),
+  // static navigationOptions = {
+  //   drawerLabel: 'Home',
+  //   drawerIcon: ({ tintColor }) => (
+  //     <Icon
+  //       name={'bug'}
+  //       size={24}
+  //     />
+  //   ),
+  // }
+  state = {
+    rehydrate: false,
   }
   componentDidMount() {
     const { navigation } = this.props;
-    // navigation.navigate('MainTabs')
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.rehydrate) {
+      const resetAction = NavigationActions.reset({
+        index: 0,
+      })
+      if (nextProps.isLogged) {
+        resetAction.actions = [
+          NavigationActions.navigate({ routeName: 'MainTabs'})
+        ]
+      } else {
+        resetAction.actions = [
+          NavigationActions.navigate({ routeName: 'LoginScreen'})
+        ]
+      }
+      this.props.navigation.dispatch(resetAction)
+    }
   }
   render() {
-    const {navigation} = this.props;
+    const {navigation, user, isLogged, login, logout} = this.props;
+    const {rehydrate} = this.state
     return (
       <View style={styles.mainContainer}>
-        <ScrollView style={styles.container}>
-          <View style={styles.centered}>
-            <Image source={Images.logoWithText} style={styles.logo} />
-          </View>
-
-          <Text style={{marginVertical: 30}}>
-            {JSON.stringify(this.props.user)}
-          </Text>
-          {/* <TouchableOpacity
-            onPress={() => {
-              navigation.dispatch(NavigationActions.reset({
-                index: 0,
-                actions: [
-                  NavigationActions.navigate({routeName: 'MainTabs'})
-                ]
-              }))
-            }}
-          >
-            <Text>Go main</Text>
-          </TouchableOpacity> */}
-
-          <ButtonFull
-            text={'LOGIN'}
-            onPress={() => this.props.login('0937417027', 'Aa123456$')}
-            // onPress={() => this.props.userRequest('0937417027')}
-          />
-          {
-            false && <DevscreensButton />
-          }
-        </ScrollView>
+        <View style={styles.centered}>
+          <Image source={Images.logoWithText} style={styles.logo} />
+          <Loading/>
+        </View>
       </View>
     )
   }
@@ -67,13 +61,12 @@ class LaunchScreen extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  isLogged: state.user && state.user.data && state.user.data.sessionKey,
+  rehydrate: state._persist && state._persist.rehydrated,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  // startup: () => dispatch(StartupActions.startup())
   login: (login, secret) => dispatch(UserActions.userLogin(login, secret)),
-  // userRequest: UserActions.userRequest,
-
-  // userRequest
+  logout: () => dispatch(UserActions.userLogout()),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(LaunchScreen)

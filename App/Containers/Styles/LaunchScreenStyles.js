@@ -7,12 +7,13 @@ export default StyleSheet.create({
     paddingBottom: Metrics.baseMargin,
   },
   logo: {
-    marginTop: Metrics.doubleSection,
     height: Metrics.images.logo,
     width: Metrics.images.logo,
     resizeMode: 'contain'
   },
   centered: {
-    alignItems: 'center'
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 })

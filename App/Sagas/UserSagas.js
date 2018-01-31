@@ -12,21 +12,20 @@
 
 import { call, put, take } from 'redux-saga/effects'
 import UserActions from '../Redux/UserRedux'
+import ShopActions from '../Redux/ShopRedux'
 
-export function* getUser(api, action) {
-  const { data } = action
-  // get current data from Store
-  // const currentData = yield select(UserSelectors.getData)
-  // make the call to the api
-  const response = yield call(api.getuser, data)
+export function* getProfile(api, action) {
+  const { id } = action
+  // // get current data from Store
+  // // const currentData = yield select(UserSelectors.getData)
+  // // make the call to the api
+  const response = yield call(api.getProfile, id)
 
-  // success?
-  if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    yield put(UserActions.userSuccess(response.data))
+  // // success?
+  if (response.ok &&  response.data.error === 0) {
+    yield put(UserActions.userSuccess(response.data.data))
   } else {
-    yield put(UserActions.userFailure())
+    // yield put(UserActions.userFailure())
   }
 }
 
@@ -38,37 +37,26 @@ export function* loginUser(api, action) {
   
   if (response.ok && response.data.error === 0) {
     const userInfo = response.data.data
+    const userId = userInfo.uid
     userInfo.mqttInfo = response.data.extraData.mqttInfo
 
     global.SID = userInfo.sessionKey
     yield put(UserActions.userSuccess(userInfo))
+    yield put(UserActions.userRequest(userId))
+    yield put(ShopActions.shopRequest(userId))
   } else {
 
   }
-    // yield put(UserActions.userSuccess({
-  //   name: 'Huy Buiii',
-  //   sessionKey: '122222332211',
-  // }))
-  // const { payload } = action
-  // console.log('====================================');
-  // console.log(payload);
-  // console.log('====================================');
+}
 
-  // const { data } = action
-  // console.log(action)
-  // get current data from Store
-  // make the call to the api
-  // const response = yield call(api.getuser, payload)
+export function* logoutUser(api, action) {
+  yield put(UserActions.userReset())
+  yield put(ShopActions.shopReset())
+  const response = yield call(api.logout)
 
-  // console.log('====================================');
-  // console.log(response);
-  // console.log('====================================');
-  // success?
-  // if (response.ok) {
-  // You might need to change the response here - do this with a 'transform',
-  // located in ../Transforms/. Otherwise, just pass the data back from the api.
-  //   yield put(UserActions.userSuccess(response.data))
+  // if (response.ok && response.data.error === 0) {
+  //   yield put(UserActions.userSuccess(null))
   // } else {
-  //   yield put(UserActions.userFailure())
+
   // }
 }

@@ -4,55 +4,48 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  userRequest: ['id'],
-  userSuccess: ['payload'],
-  userReset: null,
-  userFailure: null,
-  userLogin: ['login', 'secret'],
-  userLogout: null,
+  shopRequest: ['id'],
+  shopSuccess: ['payload'],
+  shopFailure: null,
+  shopReset: null,
 })
 
-export const UserTypes = Types
+export const ShopTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  data: null,
+  data: [],
   fetching: null,
   error: null
 })
 
 /* ------------- Selectors ------------- */
 
-export const UserSelectors = {
-  getData: state => state.user.data,
-  getSID: state => state.data,
+export const ShopSelectors = {
+  getData: state => state.data
 }
 
 /* ------------- Reducers ------------- */
 
-// request the data from an api
-export const request = (state, { data }) =>
-  state.merge({ fetching: true, data })
-
-export const reset = (state) => state.merge({ fetching: false, data: null, error: null })
-
 // successful api lookup
 export const success = (state, action) => {
   const { payload } = action
-  const data = {...state.data, ...payload}
-  return state.merge({ fetching: false, error: null, data })
+  return state.merge({ fetching: false, error: null, data: payload })
 }
 
 // Something went wrong somewhere.
 export const failure = state =>
   state.merge({ fetching: false, error: true, data: null })
 
+export const reset = state =>
+  state.merge({ fetching: false, error: true, data: [] })
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.USER_RESET]: reset,
-  [Types.USER_SUCCESS]: success,
-  [Types.USER_FAILURE]: failure,
+  [Types.SHOP_SUCCESS]: success,
+  [Types.SHOP_FAILURE]: failure,
+  [Types.SHOP_RESET]: reset,
 })

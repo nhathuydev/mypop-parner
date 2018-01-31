@@ -8,12 +8,14 @@ import DebugConfig from '../Config/DebugConfig'
 import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { UserTypes } from '../Redux/UserRedux'
+import { ShopTypes } from '../Redux/ShopRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
-import { getUser, loginUser } from './UserSagas'
+import { loginUser, logoutUser, getProfile } from './UserSagas'
+import { getShop } from './ShopSagas'
 
 /* ------------- API ------------- */
 
@@ -25,11 +27,12 @@ const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
 
 export default function* root() {
   yield all([
-    // some sagas only receive an action
-    takeLatest(StartupTypes.STARTUP, startup),
+    takeLatest('persist/REHYDRATE', startup),
+    
+    takeLatest(UserTypes.USER_LOGIN, loginUser, api),
+    takeLatest(UserTypes.USER_LOGOUT, logoutUser, api),
+    takeLatest(UserTypes.USER_REQUEST, getProfile, api),
 
-    // some sagas receive extra parameters in addition to an action
-    // takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
-    takeLatest(UserTypes.USER_LOGIN, loginUser, api)
+    takeLatest(ShopTypes.SHOP_REQUEST, getShop, api),
   ])
 }

@@ -55,6 +55,14 @@ const style = {
     fontFamily: type.base,
     fontSize: size.small
   },
+  label: {
+    fontFamily: type.base,
+    fontSize: size.regular
+  },
+  input: {
+    fontFamily: type.base,
+    fontSize: size.regular
+  },
 }
 
 export default {

@@ -4,7 +4,7 @@
 4. update data
 
 1. Login: 
-    -   Phone, validate, 
+    -   Phone, validate,
     -   
 2. Logout
 3. Transaction request
